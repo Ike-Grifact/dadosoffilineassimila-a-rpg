@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rolador + Ficha Temporária — Assimilação RPG</title>
+<style>
+:root{
+  --bg:#121411; --panel:#1f241f; --panel2:#272d27; --panel3:#171a17; --ink:#eee7d7; --muted:#b9ad98;
+  --line:#4b5348; --red:#753130; --red2:#9b3f3b; --blue:#1f5c70; --blue2:#2f8397; --green:#596a3a;
+  --gold:#c5a55a; --black:#090a09; --paper:#d8ceb7; --paper-dark:#9e927a; --bad:#bb5049;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{
+  margin:0; color:var(--ink); font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(circle at 12% -8%, rgba(42,104,124,.32), transparent 32rem),
+    radial-gradient(circle at 98% 4%, rgba(117,49,48,.28), transparent 30rem),
+    linear-gradient(180deg,#10120f,#181c17 55%,#0e100e);
+}
+body:before{
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.14; mix-blend-mode:screen;
+  background-image:
+    linear-gradient(115deg, transparent 0 78%, rgba(255,255,255,.1) 80%, transparent 82%),
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,.12), transparent 1px);
+  background-size:260px 180px, 13px 13px;
+}
+header{max-width:1240px;margin:0 auto;padding:24px 16px 8px}
+h1{margin:0;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.45rem,3.8vw,2.65rem)}
+.subtitle{color:var(--muted);max-width:860px;margin-top:6px;line-height:1.42}
+main{max-width:1240px;margin:0 auto;padding:12px 16px 44px;display:grid;gap:16px}
+.grid{display:grid;grid-template-columns:360px 1fr;gap:16px;align-items:start}
+@media(max-width:930px){.grid{grid-template-columns:1fr}}
+.card{
+  background:linear-gradient(180deg,rgba(34,39,33,.94),rgba(25,29,25,.94));
+  border:1px solid var(--line); border-radius:18px; padding:15px; box-shadow:0 16px 40px rgba(0,0,0,.28);
+}
+.card h2{margin:0 0 12px;text-transform:uppercase;font-size:1.05rem;letter-spacing:.06em}.card h3{margin:16px 0 10px;color:#d7caa7;font-size:.94rem;text-transform:uppercase;letter-spacing:.06em}
+.stack{display:grid;gap:16px}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:700px){.two,.three{grid-template-columns:1fr}}
+label{display:block;color:var(--muted);font-size:.86rem;margin:0 0 5px}
+input,select,textarea,button{
+  width:100%;border:1px solid var(--line);border-radius:11px;background:#121512;color:var(--ink);padding:9px 10px;font:inherit;
+}
+input[type=number]{text-align:center} textarea{resize:vertical;min-height:74px}
+button{cursor:pointer;font-weight:800;background:linear-gradient(180deg,#334033,#222b22);border-color:#65705d;transition:.12s transform,.12s filter}
+button:hover{filter:brightness(1.12)} button:active{transform:translateY(1px)}
+.primary{background:linear-gradient(180deg,#296578,#1b3f4b);border-color:#43899c}.danger{background:linear-gradient(180deg,#783633,#4b2322);border-color:#9b514c}.ghost{background:#151815}.small{font-size:.86rem;padding:7px 9px}.inline-check{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.92rem}.inline-check input{width:auto}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{width:auto;padding:8px 12px;border-radius:999px;background:#151815;color:var(--muted)}.tab.active{background:linear-gradient(180deg,#304235,#223025);color:var(--ink);outline:2px solid rgba(197,165,90,.28)}
+.page{display:none}.page.active{display:block}.row{display:grid;grid-template-columns:1fr 86px;gap:8px;align-items:end;margin:8px 0}.apt-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06)}.apt-name{font-weight:700}.pips{display:flex;gap:5px}.pip{width:18px;height:18px;border:1px solid #8a806d;background:transparent;transform:rotate(45deg);cursor:pointer}.pip.filled{background:#8d332f;border-color:#b1524c}.pip.diamond.filled{background:#d2c3a4;border-color:#eee0c2}.pip:focus{outline:2px solid var(--gold)}
+.sheet-head{display:grid;grid-template-columns:110px 1fr;gap:12px;margin-bottom:12px}.portrait{border-radius:16px;border:1px solid var(--line);background:linear-gradient(150deg,#0d0f0e,#23332c);min-height:130px;display:grid;place-items:center;color:#817867;text-align:center;font-size:.8rem;padding:8px}.meter{background:#101310;border:1px solid var(--line);border-radius:12px;overflow:hidden;height:18px}.bar{height:100%;width:50%;background:linear-gradient(90deg,var(--red2),#c77a54)}.bar.blue{background:linear-gradient(90deg,var(--blue),var(--blue2))}.summary-box{background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:13px;padding:10px;color:var(--muted);line-height:1.35}
+.dice-setup{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.builder{background:rgba(0,0,0,.15);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}.dice-area{display:flex;flex-wrap:wrap;gap:12px;min-height:116px;align-items:flex-start;padding:4px 0}.die{
+  width:88px;min-height:96px;border-radius:16px;border:1px solid #5f665d;background:linear-gradient(180deg,#e8e0cc,#bdb099);color:#161713;display:grid;place-items:center;gap:3px;padding:7px;position:relative;cursor:pointer;box-shadow:inset 0 -5px 12px rgba(0,0,0,.22),0 10px 18px rgba(0,0,0,.28);overflow:hidden
+}
+.die.d6{background:linear-gradient(180deg,#dbe6e6,#8aaeba)}.die.d10{background:linear-gradient(180deg,#e7dfcf,#b8aa92)}.die.d12{background:linear-gradient(180deg,#ead4d1,#b57270)}.die.kept{outline:4px solid var(--gold);transform:translateY(-3px)}.die:not(.kept){opacity:.58}.die.rolling{animation:shake .62s ease-in-out infinite;filter:blur(.2px) brightness(1.08)}
+@keyframes shake{0%{transform:rotate(0) translate(0,0)}20%{transform:rotate(7deg) translate(2px,-2px)}40%{transform:rotate(-8deg) translate(-2px,2px)}60%{transform:rotate(5deg) translate(3px,1px)}80%{transform:rotate(-4deg) translate(-1px,-3px)}100%{transform:rotate(0) translate(0,0)}}
+.die-type{font-size:.72rem;font-weight:900;position:absolute;left:7px;top:6px;opacity:.72}.face-num{font-size:.72rem;font-weight:900;position:absolute;right:7px;top:6px;opacity:.72}.face-img{width:62px;height:62px;object-fit:contain;image-rendering:auto;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3));margin-top:14px}.symbols{display:flex;gap:3px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:14px}.sym{display:inline-grid;place-items:center;width:23px;height:23px}.sym svg{width:100%;height:100%;fill:#111}.empty{font-size:.72rem;color:#333;font-weight:900;opacity:.75}.totals{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.total{background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}.total strong{display:block;font-size:2rem;line-height:1}.total span{color:var(--muted);font-size:.84rem}.note{color:var(--muted);font-size:.88rem;line-height:1.44}.history-list{display:grid;gap:8px;max-height:220px;overflow:auto}.hist-item{background:rgba(0,0,0,.16);border:1px solid var(--line);border-radius:12px;padding:9px;color:var(--muted)}code{background:rgba(0,0,0,.26);padding:2px 6px;border-radius:7px}.hidden{display:none!important}.svg-sprite{position:absolute;width:0;height:0;overflow:hidden}
+</style>
+</head>
+<body>
+<svg class="svg-sprite" aria-hidden="true">
+  <symbol id="icon-a" viewBox="0 0 100 100"><path d="M49 9c10 0 16 7 18 15 8 0 16 5 16 14 0 6-3 10-7 13 5 5 9 12 7 20-2 12-15 18-28 17-13 1-27-5-30-17-2-8 1-15 7-20-5-3-8-8-8-14 0-9 8-14 16-14 2-8 9-14 19-14Zm-20 6 9 11m33-11-9 11M37 56h7v8h-7zm19 0h7v8h-7z"/></symbol>
+  <symbol id="icon-b" viewBox="0 0 100 100"><path d="M50 6c10 22 23 30 43 33-20 8-29 21-33 43-10-20-23-29-43-33 20-8 29-21 33-43Z"/></symbol>
+  <symbol id="icon-c" viewBox="0 0 100 100"><path d="M50 5 61 28 87 20 78 45 97 58 72 64 70 91 50 73 30 91 28 64 3 58 22 45 13 20 39 28Z"/></symbol>
+</svg>
+<header>
+  <h1>Rolador Assimilação</h1>
+  <div class="subtitle">HTML único para GitHub/offline, com ficha temporária, construtor de rolagem por aptidões, animação dos dados e suporte aos sprites em <code>textures/assimilation/</code>.</div>
+</header>
+<main class="grid">
+  <aside class="stack">
+    <section class="card">
+      <h2>Ficha Temporária</h2>
+      <div class="sheet-head">
+        <div class="portrait">Retrato<br>temporário</div>
+        <div>
+          <label>Nome do Infectado</label><input id="charName" placeholder="Ex.: Helena" />
+          <div class="two" style="margin-top:8px"><div><label>Conceito</label><input id="charConcept" placeholder="Mateira, vigia..." /></div><div><label>Geração</label><input id="charGen" placeholder="Opcional" /></div></div>
+        </div>
+      </div>
+      <div class="tabs"><button class="tab active" data-tab="tab-inst">Instintos</button><button class="tab" data-tab="tab-conh">Conhecimentos</button><button class="tab" data-tab="tab-prat">Práticas</button><button class="tab" data-tab="tab-vida">Vida</button></div>
+      <div id="tab-inst" class="page active"><div id="instincts"></div></div>
+      <div id="tab-conh" class="page"><div id="knowledges"></div></div>
+      <div id="tab-prat" class="page"><div id="practices"></div></div>
+      <div id="tab-vida" class="page">
+        <div class="two"><div><label>Saúde atual</label><input id="hpNow" type="number" value="10" min="0"></div><div><label>Saúde máxima</label><input id="hpMax" type="number" value="10" min="1"></div></div>
+        <div style="margin:10px 0"><div class="meter"><div id="hpBar" class="bar"></div></div></div>
+        <div class="two"><div><label>Nível de Saúde</label><select id="healthLevel"><option>6</option><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div><div><label>Dados mantidos padrão</label><input id="defaultKeep" type="number" min="1" max="4" value="1"></div></div>
+        <div class="two"><div><label>Determinação atual</label><input id="detNow" type="number" value="5" min="0"></div><div><label>Assimilação atual</label><input id="assimNow" type="number" value="0" min="0"></div></div>
+        <p class="note">Sem salvamento local: os valores ficam só enquanto a página está aberta.</p>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Resumo</h2>
+      <div id="sheetSummary" class="summary-box"></div>
+    </section>
+  </aside>
+  <section class="stack">
+    <section class="card">
+      <h2>Construtor de Rolagem</h2>
+      <div class="builder">
+        <div class="two">
+          <div><label>Instinto</label><select id="rollInstinct"></select></div>
+          <div><label>Conhecimento ou Prática</label><select id="rollSkill"></select></div>
+        </div>
+        <div class="two" style="margin-top:10px">
+          <label class="inline-check"><input id="assimilated" type="checkbox"> Rolagem Assimilada / Agir por Instinto</label>
+          <div id="secondInstWrap" class="hidden"><label>Segundo Instinto</label><select id="secondInstinct"></select></div>
+        </div>
+        <div class="three" style="margin-top:10px">
+          <button id="useSheetBtn" class="primary">Usar aptidões</button>
+          <button id="plusKeepBtn" class="ghost">+1 dado mantido</button>
+          <button id="resetManualBtn" class="ghost">Zerar manual</button>
+        </div>
+      </div>
+      <h3>Dados manuais</h3>
+      <div class="dice-setup">
+        <div><label>d6</label><input id="d6" type="number" min="0" max="40" value="2"></div>
+        <div><label>d10</label><input id="d10" type="number" min="0" max="40" value="1"></div>
+        <div><label>d12</label><input id="d12" type="number" min="0" max="40" value="0"></div>
+        <div><label>Mantidos</label><input id="keep" type="number" min="1" max="4" value="1"></div>
+      </div>
+      <div class="two" style="margin-top:12px"><button class="primary" id="rollBtn">Rolar dados</button><button class="danger" id="clearBtn">Limpar</button></div>
+      <label class="inline-check" style="margin-top:10px"><input id="autoKeep" type="checkbox" checked> Sugerir dados mantidos após a rolagem</label>
+    </section>
+    <section class="card">
+      <h2>Resultado</h2>
+      <p class="note">Clique em um dado para manter/remover. O limite respeita o campo <b>Mantidos</b>. Durante a animação, os sprites alternam até revelar o resultado final.</p>
+      <div id="diceArea" class="dice-area"><p class="note">Nenhuma rolagem ainda.</p></div>
+      <div class="totals"><div class="total"><strong id="totalA">0</strong><span>A Sucessos</span></div><div class="total"><strong id="totalB">0</strong><span>B Adaptações</span></div><div class="total"><strong id="totalC">0</strong><span>C Pressões</span></div></div>
+      <div class="three" style="margin-top:12px"><button class="small" id="keepBestBtn">Sugerir melhores</button><button class="small" id="copyBtn">Copiar resultado</button><button class="small" id="clearHistoryBtn">Limpar histórico</button></div>
+      <p class="note"><b>Sprites externos:</b> coloque os arquivos como <code>textures/assimilation/a.webp</code>, <code>aa.webp</code>, <code>abc.webp</code>, <code>blank.webp</code>, <code>c.webp</code>, <code>cc.webp</code> etc. Se uma imagem não carregar, o HTML usa os SVGs internos como fallback.</p>
+    </section>
+    <section class="card"><h2>Histórico</h2><div id="history" class="history-list"></div></section>
+  </section>
+</main>
+<script>
+const ASSET_BASE = 'textures/assimilation';
+const TABLE = {
+  d6:  {1:'', 2:'', 3:'C', 4:'C', 5:'BC', 6:'A'},
+  d10: {1:'', 2:'', 3:'C', 4:'C', 5:'BC', 6:'A', 7:'AA', 8:'AB', 9:'ABC', 10:'AAC'},
+  d12: {1:'', 2:'', 3:'C', 4:'C', 5:'BC', 6:'A', 7:'AA', 8:'AB', 9:'ABC', 10:'AAC', 11:'ABBC', 12:'CC'}
+};
+const INSTINCTS = ['Influência','Percepção','Potência','Reação','Resolução','Sagacidade'];
+const KNOWLEDGES = ['Biologia','Erudição','Engenharia','Geografia','Medicina','Segurança'];
+const PRACTICES = ['Armas','Atletismo','Expressão','Furtividade','Manufaturas','Sobrevivência'];
+const $ = id => document.getElementById(id);
+let dice = []; let rollingTimer = null;
+const state = {instincts:{},knowledges:{},practices:{}};
+INSTINCTS.forEach(n=>state.instincts[n]=1); KNOWLEDGES.forEach(n=>state.knowledges[n]=0); PRACTICES.forEach(n=>state.practices[n]=0);
+function icon(letter){return `<span class="sym sym-${letter.toLowerCase()}"><svg><use href="#icon-${letter.toLowerCase()}"></use></svg></span>`}
+function symbolsHTML(str){return str ? [...str].map(icon).join('') : '<span class="empty">vazio</span>'}
+function faceFile(symbols){return `${ASSET_BASE}/${(symbols || 'blank').toLowerCase()}.webp`}
+function faceVisual(symbols){return `<img class="face-img" src="${faceFile(symbols)}" alt="${symbols||'blank'}" onerror="this.outerHTML='<span class=&quot;symbols&quot;>${symbolsHTML(symbols).replaceAll('"','&quot;')}</span>'">`}
+function clamp(v,min,max){return Math.max(min,Math.min(max,Number(v)||0))}
+function renderPips(containerId,names,obj,min,max,diamond=false){
+  $(containerId).innerHTML = names.map(name=>`<div class="apt-row"><div class="apt-name">${name}</div><div class="pips" role="group" aria-label="${name}">${Array.from({length:max},(_,i)=>`<button class="pip ${diamond?'diamond':''} ${obj[name]>i?'filled':''}" data-group="${containerId}" data-name="${name}" data-value="${i+1}" title="${i+1}"></button>`).join('')}</div></div>`).join('');
+  document.querySelectorAll(`#${containerId} .pip`).forEach(btn=>btn.addEventListener('click',()=>{const group=btn.dataset.group; const key=group==='instincts'?'instincts':group==='knowledges'?'knowledges':'practices'; const val=Number(btn.dataset.value); obj[btn.dataset.name]=(obj[btn.dataset.name]===val && min===0)?0:val; renderAllSheet();}));
+}
+function fillSelect(id,items){$(id).innerHTML = items.map(n=>`<option value="${n}">${n}</option>`).join('')}
+function fillSkillSelect(){ $('rollSkill').innerHTML = [...KNOWLEDGES.map(n=>['K',n]),...PRACTICES.map(n=>['P',n])].map(([t,n])=>`<option value="${t}:${n}">${n} (${t==='K'?'Conhecimento':'Prática'})</option>`).join('') }
+function renderAllSheet(){
+  renderPips('instincts',INSTINCTS,state.instincts,1,5,false); renderPips('knowledges',KNOWLEDGES,state.knowledges,0,5,true); renderPips('practices',PRACTICES,state.practices,0,5,true); updateSummary(); updateBars();
+}
+function updateBars(){const hp=clamp($('hpNow').value,0,999), max=clamp($('hpMax').value,1,999); $('hpBar').style.width = `${clamp((hp/max)*100,0,100)}%`}
+function updateSummary(){
+  const topInst = [...INSTINCTS].sort((a,b)=>state.instincts[b]-state.instincts[a]).slice(0,2).map(n=>`${n} ${state.instincts[n]}`).join(', ');
+  const trained = [...KNOWLEDGES,...PRACTICES].filter(n=>(state.knowledges[n]??state.practices[n])>0).map(n=>`${n} ${state.knowledges[n]??state.practices[n]}`).join(', ') || 'sem aptidões treinadas';
+  $('sheetSummary').innerHTML = `<b>${$('charName').value || 'Infectado sem nome'}</b><br>Instintos fortes: ${topInst}.<br>Aptidões treinadas: ${trained}.<br>Saúde: ${$('hpNow').value}/${$('hpMax').value} · Nível ${$('healthLevel').value}.`;
+}
+function getSkillValue(raw){const [t,n]=raw.split(':'); return t==='K'?state.knowledges[n]:state.practices[n]}
+function useSheetRoll(){
+  const i1=$('rollInstinct').value; const assim=$('assimilated').checked; $('keep').value = clamp($('defaultKeep').value,1,4);
+  if(assim){const i2=$('secondInstinct').value; $('d6').value=0; $('d10').value=0; $('d12').value=state.instincts[i1]+state.instincts[i2]; $('keep').value=clamp(Number($('keep').value)+1,1,4)}
+  else{$('d6').value=state.instincts[i1]; $('d10').value=getSkillValue($('rollSkill').value); $('d12').value=0}
+}
+function countSymbols(list){const out={A:0,B:0,C:0}; list.forEach(d=>[...d.symbols].forEach(s=>out[s]++)); return out}
+function scoreDie(d){const c=countSymbols([d]); return c.A*100 + c.B*28 - c.C*22 + (d.symbols===''?-10:0)}
+function maxKeep(){return clamp($('keep').value,1,4)}
+function rollOne(sides){return Math.floor(Math.random()*sides)+1}
+function randomSymbols(type){const sides=Number(type.slice(1)); return TABLE[type][rollOne(sides)]}
+function makeDiceSkeleton(){
+  dice=[]; [['d6',6],['d10',10],['d12',12]].forEach(([type,sides])=>{const n=clamp($(type).value,0,40); for(let i=0;i<n;i++){dice.push({id:String(Date.now()+Math.random()),type,face:rollOne(sides),symbols:randomSymbols(type),kept:false,rolling:true,finalFace:null,finalSymbols:null})}})
+}
+function rollDice(){
+  clearInterval(rollingTimer); makeDiceSkeleton(); if(!dice.length){render();return}
+  dice.forEach(d=>{const sides=Number(d.type.slice(1)); d.finalFace=rollOne(sides); d.finalSymbols=TABLE[d.type][d.finalFace]}); render();
+  rollingTimer=setInterval(()=>{dice.forEach(d=>{d.symbols=randomSymbols(d.type); d.face=rollOne(Number(d.type.slice(1)))}); render(false)},90);
+  setTimeout(()=>{clearInterval(rollingTimer); dice.forEach(d=>{d.face=d.finalFace; d.symbols=d.finalSymbols; d.rolling=false}); if($('autoKeep').checked) keepBest(false); render(); addHistory(true)},760);
+}
+function keepBest(doRender=true){dice.forEach(d=>d.kept=false); [...dice].sort((a,b)=>scoreDie(b)-scoreDie(a)).slice(0,Math.min(maxKeep(),dice.length)).forEach(d=>d.kept=true); if(doRender){render(); addHistory(false)}}
+function toggleDie(id){const d=dice.find(x=>x.id===id); if(!d||d.rolling)return; if(!d.kept && dice.filter(x=>x.kept).length>=maxKeep())return; d.kept=!d.kept; render(); addHistory(false)}
+function render(update=true){
+  const area=$('diceArea'); if(!dice.length){area.innerHTML='<p class="note">Nenhuma rolagem ainda.</p>'; updateTotals(); return}
+  area.innerHTML=dice.map(d=>`<button class="die ${d.type} ${d.kept?'kept':''} ${d.rolling?'rolling':''}" data-id="${d.id}"><span class="die-type">${d.type.toUpperCase()}</span><span class="face-num">${d.face}</span>${faceVisual(d.symbols)}</button>`).join('');
+  area.querySelectorAll('.die').forEach(el=>el.addEventListener('click',()=>toggleDie(el.dataset.id))); updateTotals();
+}
+function updateTotals(){const t=countSymbols(dice.filter(d=>d.kept)); $('totalA').textContent=t.A; $('totalB').textContent=t.B; $('totalC').textContent=t.C}
+function plainResult(){const kept=dice.filter(d=>d.kept); const totals=countSymbols(kept); const all=dice.map(d=>`${d.type}:${d.face}(${d.symbols||'-'})`).join(' '); const keptText=kept.map(d=>`${d.type}:${d.face}(${d.symbols||'-'})`).join(' '); return `Rolagem: ${all}\nMantidos: ${keptText||'-'}\nTotal: A${totals.A} B${totals.B} C${totals.C}`}
+function addHistory(newRoll=true){if(!dice.length||dice.some(d=>d.rolling))return; const h=$('history'); if(!newRoll && h.firstElementChild)h.firstElementChild.remove(); const item=document.createElement('div'); item.className='hist-item'; item.textContent=plainResult().replaceAll('\n',' | '); h.prepend(item)}
+function init(){
+  fillSelect('rollInstinct',INSTINCTS); fillSelect('secondInstinct',INSTINCTS); fillSkillSelect(); renderAllSheet();
+  document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab,.page').forEach(x=>x.classList.remove('active')); btn.classList.add('active'); $(btn.dataset.tab).classList.add('active')}));
+  ['charName','charConcept','charGen','hpNow','hpMax','healthLevel','detNow','assimNow','defaultKeep'].forEach(id=>$(id).addEventListener('input',()=>{updateSummary();updateBars()}));
+  $('assimilated').addEventListener('change',()=>{$('secondInstWrap').classList.toggle('hidden',!$('assimilated').checked)});
+  $('useSheetBtn').addEventListener('click',useSheetRoll); $('plusKeepBtn').addEventListener('click',()=>{$('keep').value=clamp(Number($('keep').value)+1,1,4)}); $('resetManualBtn').addEventListener('click',()=>{$('d6').value=0;$('d10').value=0;$('d12').value=0;$('keep').value=1});
+  $('rollBtn').addEventListener('click',rollDice); $('clearBtn').addEventListener('click',()=>{dice=[];render()}); $('keepBestBtn').addEventListener('click',()=>keepBest(true)); $('copyBtn').addEventListener('click',async()=>{if(!dice.length)return; try{await navigator.clipboard.writeText(plainResult())}catch(e){prompt('Copie o resultado:',plainResult())}}); $('clearHistoryBtn').addEventListener('click',()=>$('history').innerHTML='');
+}
+init();
+</script>
+</body>
+</html>
