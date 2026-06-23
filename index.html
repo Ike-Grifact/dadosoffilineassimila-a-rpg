@@ -49,7 +49,7 @@ button:hover{filter:brightness(1.12)} button:active{transform:translateY(1px)}
 .primary{background:linear-gradient(180deg,#296578,#1b3f4b);border-color:#43899c}.danger{background:linear-gradient(180deg,#783633,#4b2322);border-color:#9b514c}.ghost{background:#151815}.small{font-size:.86rem;padding:7px 9px}.inline-check{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.92rem}.inline-check input{width:auto}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{width:auto;padding:8px 12px;border-radius:999px;background:#151815;color:var(--muted)}.tab.active{background:linear-gradient(180deg,#304235,#223025);color:var(--ink);outline:2px solid rgba(197,165,90,.28)}
 .page{display:none}.page.active{display:block}.row{display:grid;grid-template-columns:1fr 86px;gap:8px;align-items:end;margin:8px 0}.apt-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06)}.apt-name{font-weight:700}.pips{display:flex;gap:5px}.pip{width:18px;height:18px;border:1px solid #8a806d;background:transparent;transform:rotate(45deg);cursor:pointer}.pip.filled{background:#8d332f;border-color:#b1524c}.pip.diamond.filled{background:#d2c3a4;border-color:#eee0c2}.pip:focus{outline:2px solid var(--gold)}
-.sheet-head{display:grid;grid-template-columns:110px 1fr;gap:12px;margin-bottom:12px}.portrait{border-radius:16px;border:1px solid var(--line);background:linear-gradient(150deg,#0d0f0e,#23332c);min-height:130px;display:grid;place-items:center;color:#817867;text-align:center;font-size:.8rem;padding:8px}.meter{background:#101310;border:1px solid var(--line);border-radius:12px;overflow:hidden;height:18px}.bar{height:100%;width:50%;background:linear-gradient(90deg,var(--red2),#c77a54)}.bar.blue{background:linear-gradient(90deg,var(--blue),var(--blue2))}.summary-box{background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:13px;padding:10px;color:var(--muted);line-height:1.35}
+.sheet-head{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:12px}.portrait{display:none}.war-track{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;margin:10px 0 12px}.war-mark{height:24px;border:1px solid #7f735e;background:#111410;transform:skew(-14deg);border-radius:5px;box-shadow:inset 0 -3px 7px rgba(0,0,0,.35)}.war-mark.det{background:linear-gradient(180deg,#375f70,#1f3844);border-color:#4f91a8}.war-mark.assim{background:linear-gradient(180deg,#8d3835,#502321);border-color:#a64f4a}.war-mark.empty{opacity:.45}.war-legend{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.84rem}.legend-dot{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:5px;vertical-align:-2px}.legend-dot.det{background:#2f8397}.legend-dot.assim{background:#9b3f3b}.meter{background:#101310;border:1px solid var(--line);border-radius:12px;overflow:hidden;height:18px}.bar{height:100%;width:50%;background:linear-gradient(90deg,var(--red2),#c77a54)}.bar.blue{background:linear-gradient(90deg,var(--blue),var(--blue2))}.summary-box{background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:13px;padding:10px;color:var(--muted);line-height:1.35}
 .dice-setup{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.builder{background:rgba(0,0,0,.15);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}.dice-area{display:flex;flex-wrap:wrap;gap:12px;min-height:116px;align-items:flex-start;padding:4px 0}.die{
   width:88px;min-height:96px;border-radius:16px;border:1px solid #5f665d;background:linear-gradient(180deg,#e8e0cc,#bdb099);color:#161713;display:grid;place-items:center;gap:3px;padding:7px;position:relative;cursor:pointer;box-shadow:inset 0 -5px 12px rgba(0,0,0,.22),0 10px 18px rgba(0,0,0,.28);overflow:hidden
 }
@@ -66,20 +66,18 @@ button:hover{filter:brightness(1.12)} button:active{transform:translateY(1px)}
 </svg>
 <header>
   <h1>Rolador Assimilação</h1>
-  <div class="subtitle">HTML único para GitHub/offline, com ficha temporária, construtor de rolagem por aptidões, animação dos dados e suporte aos sprites em <code>textures/assimilation/</code>.</div>
+  <div class="subtitle">HTML único para GitHub/offline, com ficha temporária, construtor de rolagem por aptidões, animação dos dados e suporte aos sprites em <code>assimilation/d10/</code>.</div>
 </header>
 <main class="grid">
   <aside class="stack">
     <section class="card">
       <h2>Ficha Temporária</h2>
       <div class="sheet-head">
-        <div class="portrait">Retrato<br>temporário</div>
         <div>
           <label>Nome do Infectado</label><input id="charName" placeholder="Ex.: Helena" />
-          <div class="two" style="margin-top:8px"><div><label>Conceito</label><input id="charConcept" placeholder="Mateira, vigia..." /></div><div><label>Geração</label><input id="charGen" placeholder="Opcional" /></div></div>
         </div>
       </div>
-      <div class="tabs"><button class="tab active" data-tab="tab-inst">Instintos</button><button class="tab" data-tab="tab-conh">Conhecimentos</button><button class="tab" data-tab="tab-prat">Práticas</button><button class="tab" data-tab="tab-vida">Vida</button></div>
+      <div class="tabs"><button class="tab active" data-tab="tab-inst">Instintos</button><button class="tab" data-tab="tab-conh">Conhecimentos</button><button class="tab" data-tab="tab-prat">Práticas</button><button class="tab" data-tab="tab-vida">Vida</button><button class="tab" data-tab="tab-cabo">Cabo de Guerra</button></div>
       <div id="tab-inst" class="page active"><div id="instincts"></div></div>
       <div id="tab-conh" class="page"><div id="knowledges"></div></div>
       <div id="tab-prat" class="page"><div id="practices"></div></div>
@@ -87,8 +85,20 @@ button:hover{filter:brightness(1.12)} button:active{transform:translateY(1px)}
         <div class="two"><div><label>Saúde atual</label><input id="hpNow" type="number" value="10" min="0"></div><div><label>Saúde máxima</label><input id="hpMax" type="number" value="10" min="1"></div></div>
         <div style="margin:10px 0"><div class="meter"><div id="hpBar" class="bar"></div></div></div>
         <div class="two"><div><label>Nível de Saúde</label><select id="healthLevel"><option>6</option><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div><div><label>Dados mantidos padrão</label><input id="defaultKeep" type="number" min="1" max="4" value="1"></div></div>
-        <div class="two"><div><label>Determinação atual</label><input id="detNow" type="number" value="5" min="0"></div><div><label>Assimilação atual</label><input id="assimNow" type="number" value="0" min="0"></div></div>
         <p class="note">Sem salvamento local: os valores ficam só enquanto a página está aberta.</p>
+      </div>
+      <div id="tab-cabo" class="page">
+        <div class="two">
+          <div><label>Nível de Determinação</label><input id="detLevel" type="number" value="5" min="0" max="10"></div>
+          <div><label>Nível de Assimilação</label><input id="assimLevel" type="number" value="0" min="0" max="10"></div>
+        </div>
+        <div id="warTrack" class="war-track" aria-label="Cabo de Guerra"></div>
+        <div class="war-legend"><span><i class="legend-dot det"></i>Determinação</span><span><i class="legend-dot assim"></i>Assimilação</span></div>
+        <div class="two" style="margin-top:12px">
+          <div><label>Pontos de Determinação atuais</label><input id="detNow" type="number" value="5" min="0"></div>
+          <div><label>Pontos de Assimilação atuais</label><input id="assimNow" type="number" value="0" min="0"></div>
+        </div>
+        <p class="note">O marcador acima é apenas visual e temporário: ajuste os níveis conforme a ficha. A soma é limitada a 10 espaços para representar a disputa entre vontade e assimilação.</p>
       </div>
     </section>
     <section class="card">
@@ -130,13 +140,13 @@ button:hover{filter:brightness(1.12)} button:active{transform:translateY(1px)}
       <div id="diceArea" class="dice-area"><p class="note">Nenhuma rolagem ainda.</p></div>
       <div class="totals"><div class="total"><strong id="totalA">0</strong><span>A Sucessos</span></div><div class="total"><strong id="totalB">0</strong><span>B Adaptações</span></div><div class="total"><strong id="totalC">0</strong><span>C Pressões</span></div></div>
       <div class="three" style="margin-top:12px"><button class="small" id="keepBestBtn">Sugerir melhores</button><button class="small" id="copyBtn">Copiar resultado</button><button class="small" id="clearHistoryBtn">Limpar histórico</button></div>
-      <p class="note"><b>Sprites externos:</b> coloque os arquivos como <code>textures/assimilation/a.webp</code>, <code>aa.webp</code>, <code>abc.webp</code>, <code>blank.webp</code>, <code>c.webp</code>, <code>cc.webp</code> etc. Se uma imagem não carregar, o HTML usa os SVGs internos como fallback.</p>
+      <p class="note"><b>Sprites externos:</b> coloque as faces em <code>assimilation/d10/</code>, por exemplo <code>a.webp</code>, <code>aa.webp</code>, <code>abc.webp</code>, <code>blank.webp</code>, <code>c.webp</code>, <code>cc.webp</code> etc. Os fundos marmorizados ficam em <code>textures/blue-marble.webp</code> e <code>textures/red-marble.webp</code>. Se uma imagem não carregar, o HTML usa os SVGs internos como fallback.</p>
     </section>
     <section class="card"><h2>Histórico</h2><div id="history" class="history-list"></div></section>
   </section>
 </main>
 <script>
-const ASSET_BASE = 'textures/assimilation';
+const ASSET_BASE = 'assimilation/d10';
 const TABLE = {
   d6:  {1:'', 2:'', 3:'C', 4:'C', 5:'BC', 6:'A'},
   d10: {1:'', 2:'', 3:'C', 4:'C', 5:'BC', 6:'A', 7:'AA', 8:'AB', 9:'ABC', 10:'AAC'},
@@ -161,13 +171,24 @@ function renderPips(containerId,names,obj,min,max,diamond=false){
 function fillSelect(id,items){$(id).innerHTML = items.map(n=>`<option value="${n}">${n}</option>`).join('')}
 function fillSkillSelect(){ $('rollSkill').innerHTML = [...KNOWLEDGES.map(n=>['K',n]),...PRACTICES.map(n=>['P',n])].map(([t,n])=>`<option value="${t}:${n}">${n} (${t==='K'?'Conhecimento':'Prática'})</option>`).join('') }
 function renderAllSheet(){
-  renderPips('instincts',INSTINCTS,state.instincts,1,5,false); renderPips('knowledges',KNOWLEDGES,state.knowledges,0,5,true); renderPips('practices',PRACTICES,state.practices,0,5,true); updateSummary(); updateBars();
+  renderPips('instincts',INSTINCTS,state.instincts,1,5,false); renderPips('knowledges',KNOWLEDGES,state.knowledges,0,5,true); renderPips('practices',PRACTICES,state.practices,0,5,true); updateSummary(); updateBars(); updateWarTrack();
 }
 function updateBars(){const hp=clamp($('hpNow').value,0,999), max=clamp($('hpMax').value,1,999); $('hpBar').style.width = `${clamp((hp/max)*100,0,100)}%`}
 function updateSummary(){
   const topInst = [...INSTINCTS].sort((a,b)=>state.instincts[b]-state.instincts[a]).slice(0,2).map(n=>`${n} ${state.instincts[n]}`).join(', ');
   const trained = [...KNOWLEDGES,...PRACTICES].filter(n=>(state.knowledges[n]??state.practices[n])>0).map(n=>`${n} ${state.knowledges[n]??state.practices[n]}`).join(', ') || 'sem aptidões treinadas';
-  $('sheetSummary').innerHTML = `<b>${$('charName').value || 'Infectado sem nome'}</b><br>Instintos fortes: ${topInst}.<br>Aptidões treinadas: ${trained}.<br>Saúde: ${$('hpNow').value}/${$('hpMax').value} · Nível ${$('healthLevel').value}.`;
+  const detLevel = $('detLevel') ? $('detLevel').value : 0;
+  const assimLevel = $('assimLevel') ? $('assimLevel').value : 0;
+  $('sheetSummary').innerHTML = `<b>${$('charName').value || 'Infectado sem nome'}</b><br>Instintos fortes: ${topInst}.<br>Aptidões treinadas: ${trained}.<br>Saúde: ${$('hpNow').value}/${$('hpMax').value} · Nível ${$('healthLevel').value}.<br>Cabo de Guerra: Determinação ${detLevel} / Assimilação ${assimLevel}.`;
+}
+function updateWarTrack(){
+  const det = clamp($('detLevel')?.value ?? 0,0,10);
+  const assim = clamp($('assimLevel')?.value ?? 0,0,10);
+  const total = Math.min(10, det + assim);
+  const detSlots = Math.min(det, 10);
+  const assimSlots = Math.min(assim, 10 - detSlots);
+  const emptySlots = 10 - detSlots - assimSlots;
+  if($('warTrack')) $('warTrack').innerHTML = `${'<div class="war-mark det"></div>'.repeat(detSlots)}${'<div class="war-mark assim"></div>'.repeat(assimSlots)}${'<div class="war-mark empty"></div>'.repeat(emptySlots)}`;
 }
 function getSkillValue(raw){const [t,n]=raw.split(':'); return t==='K'?state.knowledges[n]:state.practices[n]}
 function useSheetRoll(){
@@ -202,7 +223,7 @@ function addHistory(newRoll=true){if(!dice.length||dice.some(d=>d.rolling))retur
 function init(){
   fillSelect('rollInstinct',INSTINCTS); fillSelect('secondInstinct',INSTINCTS); fillSkillSelect(); renderAllSheet();
   document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab,.page').forEach(x=>x.classList.remove('active')); btn.classList.add('active'); $(btn.dataset.tab).classList.add('active')}));
-  ['charName','charConcept','charGen','hpNow','hpMax','healthLevel','detNow','assimNow','defaultKeep'].forEach(id=>$(id).addEventListener('input',()=>{updateSummary();updateBars()}));
+  ['charName','hpNow','hpMax','healthLevel','detNow','assimNow','detLevel','assimLevel','defaultKeep'].forEach(id=>$(id).addEventListener('input',()=>{updateSummary();updateBars();updateWarTrack()}));
   $('assimilated').addEventListener('change',()=>{$('secondInstWrap').classList.toggle('hidden',!$('assimilated').checked)});
   $('useSheetBtn').addEventListener('click',useSheetRoll); $('plusKeepBtn').addEventListener('click',()=>{$('keep').value=clamp(Number($('keep').value)+1,1,4)}); $('resetManualBtn').addEventListener('click',()=>{$('d6').value=0;$('d10').value=0;$('d12').value=0;$('keep').value=1});
   $('rollBtn').addEventListener('click',rollDice); $('clearBtn').addEventListener('click',()=>{dice=[];render()}); $('keepBestBtn').addEventListener('click',()=>keepBest(true)); $('copyBtn').addEventListener('click',async()=>{if(!dice.length)return; try{await navigator.clipboard.writeText(plainResult())}catch(e){prompt('Copie o resultado:',plainResult())}}); $('clearHistoryBtn').addEventListener('click',()=>$('history').innerHTML='');
